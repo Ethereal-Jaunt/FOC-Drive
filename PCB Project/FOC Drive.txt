@@ -1,0 +1,12 @@
+Board Information Report
+Filename     : D:\SomeFunnyThing\FOC Drive\FOC Drive.PcbDoc
+Date         : 5/22/2022
+Time         : 5:31:56 PM
+Time Elapsed : 00:00:01
+
+Routing Information
+    Routing completion, 100.00%
+    Connections, 144
+    Connections routed, 144
+    Connections remaining, 0
+count : 4
