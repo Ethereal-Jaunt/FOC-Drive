@@ -53,6 +53,9 @@
 "..\obj\datascope_dp.o"
 "..\obj\scheduler.o"
 "..\obj\svpwm.o"
+"..\obj\acr.o"
+"..\obj\asr.o"
+"..\obj\foc.o"
 "..\DSP_LIB\arm_cortexM4lf_math.lib"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols

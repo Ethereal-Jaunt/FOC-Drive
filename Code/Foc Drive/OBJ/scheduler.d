@@ -41,3 +41,8 @@
 ..\obj\scheduler.o: ..\SYSTEM\sys\sys.h
 ..\obj\scheduler.o: ..\HAREWARE\as5600.h
 ..\obj\scheduler.o: ..\HAREWARE\Drv_i2c.h
+..\obj\scheduler.o: ..\APP\foc.h
+..\obj\scheduler.o: ..\DSP_LIB\Include\arm_math.h
+..\obj\scheduler.o: ..\DSP_LIB\Include\core_cm4.h
+..\obj\scheduler.o: F:\Keil5.21\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\scheduler.o: F:\Keil5.21\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

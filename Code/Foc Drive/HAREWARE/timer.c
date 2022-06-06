@@ -27,7 +27,7 @@ void TIM1_PWM_Init(u32 arr,u32 psc)
 	GPIO_Init(GPIOE,&GPIO_InitStructure);              //初始化PE9,11,13,14
 	  
 	TIM_TimeBaseStructure.TIM_Prescaler=psc;  //定时器分频
-	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
+	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_CenterAligned1; //中心对齐模式1
 	TIM_TimeBaseStructure.TIM_Period=arr;   //自动重装载值
 	TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
@@ -76,9 +76,9 @@ void Set_Pwm(int pwm1 , int pwm2 ,int pwm3 )
 	if(pwm3<0)	pwm3 = 0;
 	
 	
-	TIM_SetCompare1(TIM1,1000+pwm1);
-	TIM_SetCompare2(TIM1,1000+pwm2);
-	TIM_SetCompare3(TIM1,1000+pwm3);
+	TIM_SetCompare1(TIM1,pwm1);
+	TIM_SetCompare2(TIM1,pwm2);
+	TIM_SetCompare3(TIM1,pwm3);
 	
 }
 

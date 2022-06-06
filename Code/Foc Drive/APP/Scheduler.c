@@ -3,6 +3,8 @@
 #include "usart.h"
 #include "as5600.h"
 #include "Drv_i2c.h"
+#include "foc.h"
+
 
 
 u32 test_dT_1000hz[3],test_rT[6];
@@ -42,7 +44,7 @@ static void Loop_100Hz(void)	//10ms执行一次
 //////////////////////////////////////////////////////////////////////				
 	/*遥控器数据处理*/
 	//RC_duty_task(10);
-			
+	Run_OpenLoop();
 	//Programe_Run();
 	
 	/*灯光控制*/	
