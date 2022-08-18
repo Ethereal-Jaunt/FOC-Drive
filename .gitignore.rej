@@ -1,0 +1,6 @@
+diff a/.gitignore b/.gitignore	(rejected hunks)
+@@ -4,3 +4,4 @@
+ PCB Project/Project Logs for FOC Drive/
+ PCB Project/Project Outputs for FOC Drive/
+ PCB Project/__Previews/
++Code/FocDrive/OBJ/
