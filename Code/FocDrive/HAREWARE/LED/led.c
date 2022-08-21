@@ -26,7 +26,7 @@ void LED_Init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; //速度选择
 	
 	//初始化 LED1 引脚
-	GPIO_InitStructure.GPIO_Pin = LED1_PIN;	 
+	GPIO_InitStructure.GPIO_Pin = LED1_PIN | GPIO_Pin_8;	 
 	GPIO_Init(LED1_PORT, &GPIO_InitStructure);	
 	
 	GPIO_ResetBits(LED1_PORT,LED1_PIN);  //PC13输出低电平

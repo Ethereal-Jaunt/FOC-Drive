@@ -12,8 +12,8 @@ void svpwm_calc_macro(sv_mod_t* p){
 //溢出检查
 void svpwm_overflow_check(sv_mod_t* p){
 	
-	int32_t max_time = 32767;
-	int32_t min_time = -32768;
+	int32_t max_time = 8399;
+	int32_t min_time = -8399;
 	
 	if(p->Ta > max_time){
 		p->Ta = max_time;
