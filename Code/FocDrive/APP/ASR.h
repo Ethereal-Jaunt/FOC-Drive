@@ -5,8 +5,8 @@
 #include "arm_math.h"  
 
 
-
-
+void ASR_PID_Init(void);
+void ASR_calc(float32_t err_speed);
 
 
 

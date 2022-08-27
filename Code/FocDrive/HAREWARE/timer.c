@@ -38,12 +38,12 @@ void TIM1_PWM_Init(u32 arr,u32 psc)
 	TIM_TimeBaseInit(TIM1,&TIM_TimeBaseStructure);//初始化定时器1
 	
 	//初始化TIM1 Channel1 PWM模式	 
-	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //选择定时器模式:TIM脉冲宽度调制模式2
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2; //选择定时器模式:TIM脉冲宽度调制模式2
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputNState_Enable;
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High; //输出极性:TIM输出比较极性
 	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;
-	TIM_OCInitStructure.TIM_Pulse = 0;	//(arr+1)/2;
+	TIM_OCInitStructure.TIM_Pulse = arr/2;
 	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCPolarity_High;
 	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
 	
@@ -106,9 +106,9 @@ void Set_Pwm(int pwm1 , int pwm2 ,int pwm3 )
 	if(pwm3<0)	pwm3 = 0;
 	
 	
-	TIM_SetCompare1(TIM1,(pwm1)/2);
-	TIM_SetCompare2(TIM1,(pwm2)/2);
-	TIM_SetCompare3(TIM1,(pwm3)/2);
+	TIM_SetCompare1(TIM1,(Moto_PwmMax - pwm1)/2);
+	TIM_SetCompare2(TIM1,(Moto_PwmMax - pwm2)/2);
+	TIM_SetCompare3(TIM1,(Moto_PwmMax - pwm3)/2);
 	
 }
 

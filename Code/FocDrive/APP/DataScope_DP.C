@@ -1,9 +1,10 @@
 #include "stm32f4xx.h"
 #include "DataScope_DP.h"
+#include "Foc.h"
 
 
-
-
+extern expected_t ex;
+extern feedback_t fb;
 
 unsigned char DataScope_OutPut_Buffer[42] = {0};	   //´®¿Ú·¢ËÍ»º³åÇø
 
@@ -82,17 +83,18 @@ unsigned char DataScope_Data_Generate(unsigned char Channel_Number)
 
 void DataUpload(void)
 {
-	u16 Send_Count,i;
-//			DataScope_Get_Channel_Data(Att_Angle.pit, 1 );
-//			DataScope_Get_Channel_Data(Att_Angle.rol, 2 );
-//			DataScope_Get_Channel_Data(Gyr_rad.X, 3 ); 
-//			DataScope_Get_Channel_Data(Gyr_rad.Y, 4 );   
+			u16 Send_Count,i;
+	
+			DataScope_Get_Channel_Data(fb.current_d, 1 );
+			DataScope_Get_Channel_Data(fb.current_q, 2 );
+			
 
-			Send_Count = DataScope_Data_Generate(4);
+			Send_Count = DataScope_Data_Generate(2);
+	
 			for( i = 0 ; i < Send_Count; i++) 
 			{
-			while((USART6->SR&0X40)==0);  
-			USART6->DR = DataScope_OutPut_Buffer[i]; 
+			while((USART1->SR&0X40)==0);  
+			USART1->DR = DataScope_OutPut_Buffer[i]; 
 			}
 }
 

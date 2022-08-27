@@ -4,29 +4,29 @@
 #include "as5600.h"
 #include "Drv_i2c.h"
 #include "foc.h"
+#include "key.h"
+#include "led.h"
+#include "DataScope_DP.h"
 
 
 
+extern expected_t ex;
+extern feedback_t fb;
 u32 test_dT_1000hz[3],test_rT[6];
 
+u16 pulse;
 
 static void Loop_1000Hz(void)	//1ms执行一次
 {
 	test_dT_1000hz[0] = test_dT_1000hz[1];
 	test_rT[3] = test_dT_1000hz[1] = GetSysTime_us ();
 	test_dT_1000hz[2] = (u32)(test_dT_1000hz[1] - test_dT_1000hz[0]) ;
-//////////////////////////////////////////////////////////////////////	
-	/*传感器数据读取*/
-  	
- 
-	/*current loop*/
-	
-	/*数传数据交换*/
-//	ANO_DT_Data_Exchange();
 
-//////////////////////////////////////////////////////////////////////	
 	test_rT[4]= GetSysTime_us ();
-	Run_OpenLoop();
+	//Run_OpenLoop();
+	Run_CloseLoop();
+	//Run_RotateVector();
+	
 	test_rT[5] = (u32)(test_rT[4] - test_rT[3]) ;	
 }
 
@@ -41,17 +41,39 @@ static void Loop_200Hz(void)	//5ms执行一次
 	
 }
 
+
 static void Loop_100Hz(void)	//10ms执行一次
 {
 	test_rT[0]= GetSysTime_us ();
 //////////////////////////////////////////////////////////////////////				
-	/*遥控器数据处理*/
-	//RC_duty_task(10);
+
+//	if (KEY_Scan(0) == 1 && pulse == 0)
+//	{
+//		pulse = 1;
+//	}
+//	
+//	if (pulse != 0)
+//	{
+//		ex.speed = 1;
+//		LED1_ON;
+//		pulse ++ ;
+//		if (pulse >= 40)
+//			pulse = 0;
+//	}else
+//	{
+//		ex.speed = 0;
+
+//		LED1_OFF;
+//	}
+//	
+	if (KEY_Scan(0) == 1)
+	{
+		if(ex.speed != 0)
+			ex.speed = 0;
+		else
+			ex.speed = 30;
+	}
 	
-	//Programe_Run();
-	
-	/*灯光控制*/	
-	//LED_Task2(10);
 //////////////////////////////////////////////////////////////////////		
 			test_rT[1]= GetSysTime_us ();
 			test_rT[2] = (u32)(test_rT[1] - test_rT[0]) ;	
@@ -60,20 +82,17 @@ static void Loop_100Hz(void)	//10ms执行一次
 
 static void Loop_50Hz(void)	//20ms执行一次
 {	
-
+	
 
 }
 
 static void Loop_20Hz(void)	//50ms执行一次
 {	
-	
+	//DataUpload();
 }
 
 static void Loop_2Hz(void)	//500ms执行一次
 {
-	/*延时存储任务*/
-//	Ano_Parame_Write_task(500);
-	//printf("%d\r\n",test_rT[2]);
 
 }
 //系统任务配置，创建不同执行频率的“线程”

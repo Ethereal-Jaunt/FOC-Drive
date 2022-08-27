@@ -1,6 +1,6 @@
 #include "Drv_adc.h"
 #include "foc.h"
-
+#include "usart.h"
 
 extern feedback_t fb;
 
@@ -16,7 +16,7 @@ static void initAdcDMA(void)
 
 
 	DMA_InitStructure.DMA_Channel = DMA_Channel_0;/*DMA通道0*/
-	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADC1_BASE+0x4C;/*外设地址*/
+	DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&ADC1->DR);//(uint32_t)(ADC1->DR);/*外设地址*/ //(uint32_t)(ADC1_BASE+0x4C);//
 	DMA_InitStructure.DMA_Memory0BaseAddr    = (uint32_t)&AdcValue;/*存取器地址*/
 	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;/*方向从外设到内存*/
 	DMA_InitStructure.DMA_BufferSize = 2;/*数据传输的数量为1*/
@@ -44,7 +44,7 @@ void Drv_AdcInit(void)
 	
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);//使能GPIOA时钟
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1,ENABLE);//使能ADC时钟
-	initAdcDMA();
+	
 	ADC_DeInit();
 	/*初始化ADC1通道1 的IO口*/
 	GPIO_InitStructure.GPIO_Mode  = GPIO_Mode_AIN;/*模拟输入*/
@@ -63,17 +63,23 @@ void Drv_AdcInit(void)
 	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;/*连续转换*/
 	ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;/*禁止触发检测 使用软件触发*/
 	ADC_InitStructure.ADC_DataAlign    = ADC_DataAlign_Right;/*右对齐*/
+	ADC_InitStructure.ADC_ExternalTrigConv = 0;
 	ADC_InitStructure.ADC_NbrOfConversion = 2;/*2通道 1*/
 	
 	ADC_Init(ADC1,&ADC_InitStructure);/*初始化*/
+	
+	initAdcDMA();
 
-	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_480Cycles);/*设置规则通道3 二个序列 采样时间 */
-	ADC_RegularChannelConfig(ADC1,ADC_Channel_1,1,ADC_SampleTime_480Cycles);/*设置规则通道3 二个序列 采样时间 */
+	ADC_RegularChannelConfig(ADC1,ADC_Channel_0,1,ADC_SampleTime_15Cycles);/*设置规则通道3 二个序列 采样时间 */
+	ADC_RegularChannelConfig(ADC1,ADC_Channel_1,2,ADC_SampleTime_15Cycles);/*设置规则通道3 二个序列 采样时间 */
 	
 	ADC_ITConfig(ADC1,ADC_IT_EOC,ENABLE);//打开ADC中断
 	
 	ADC_DMARequestAfterLastTransferCmd(ADC1,ENABLE);//源数据变化时开启DMA传输
 	ADC_Cmd(ADC1,ENABLE);/*开启转换*/
+	
+	
+	
 	ADC_DMACmd(ADC1,ENABLE);//使能ADC传输
 	
 	
@@ -85,10 +91,32 @@ void Drv_AdcInit(void)
 
 }
 
+int calibration_ch0=0,calibration_ch1=0;
+
 void ADC_IRQHandler()
 {
-		fb.current_u = AdcValue[0]/10.0;
-		fb.current_v = AdcValue[1]/10.0;
+	static u16 count=0;
+	float temp_u,temp_v;
+	if (count <= 300)
+	{
+		calibration_ch0 += (AdcValue[0]-2048);
+		calibration_ch1 += (AdcValue[1]-2048);
+		count ++;
+	}
+	else
+	{
+		temp_u = -(AdcValue[0]-2048-calibration_ch0/300)*3.3/4096;
+		temp_v = (AdcValue[1]-2048-calibration_ch1/300)*3.3/4096;
+		
+		fb.current_u = 0.6 * temp_u + (0.4) * fb.current_u; 
+		fb.current_v = 0.6 * temp_v + (0.4) * fb.current_v;
+		
+	//	printf("%d\r\n",AdcValue[1]-2048);
+		
+	//	fb.current_u = -((AdcValue[0]-2048)*3.3/4096);
+	//	fb.current_v = (AdcValue[1]-2048)*3.3/4096;
 		fb.current_w = -fb.current_u - fb.current_v;
+	}
+	
 }
 

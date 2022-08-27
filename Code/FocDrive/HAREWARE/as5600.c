@@ -401,13 +401,14 @@ float convertRawAngleToDegrees(int16_t newAngle)
   return retVal;
 }
 
-uint16_t rawdata=0;
-float degress =0;
+
 
 float Get_Angle(void)
 {
+	uint16_t rawdata=0;
+	float degress =0;
 	rawdata = getRawAngle();	//read raw data from as5600
 	degress = convertRawAngleToDegrees(rawdata);	//covert to angle
-//	printf("rawdata:%d  degress:%f\r\n",rawdata,degress);
+	//printf("rawdata:%d  degress:%f\r\n",rawdata,degress);
 	return degress;
 }
