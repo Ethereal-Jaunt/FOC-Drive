@@ -1,0 +1,9 @@
+Build target 'Target 1'
+compiling Parameter.c...
+..\General\Parameter.c(30): warning:  #177-D: function "Parame_Write" was declared but never referenced
+  static void Parame_Write(void)
+..\General\Parameter.c: 1 warning, 0 errors
+linking...
+Program Size: Code=15088 RO-data=2520 RW-data=152 ZI-data=2600  
+FromELF: creating hex file...
+"..\OBJ\Template.axf" - 0 Error(s), 1 Warning(s).

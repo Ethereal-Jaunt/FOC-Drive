@@ -365,7 +365,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING</Define>
               <Undefine></Undefine>
-              <IncludePath>..\FWLIB\inc;..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HAREWARE\LED;..\APP;..\HAREWARE;..\DSP_LIB;..\DSP_LIB\Include</IncludePath>
+              <IncludePath>..\FWLIB\inc;..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\APP;..\HAREWARE;..\DSP_LIB;..\DSP_LIB\Include;..\General</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -449,11 +449,6 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HAREWARE\LED\led.c</FilePath>
-            </File>
-            <File>
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAREWARE\timer.c</FilePath>
@@ -497,6 +492,11 @@
               <FileName>key.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAREWARE\key.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HAREWARE\led.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -694,11 +694,6 @@
           <GroupName>APP</GroupName>
           <Files>
             <File>
-              <FileName>DataScope_DP.C</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\DataScope_DP.C</FilePath>
-            </File>
-            <File>
               <FileName>Scheduler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\APP\Scheduler.c</FilePath>
@@ -732,6 +727,26 @@
               <FileName>arm_cortexM4lf_math.lib</FileName>
               <FileType>4</FileType>
               <FilePath>..\DSP_LIB\arm_cortexM4lf_math.lib</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>General</GroupName>
+          <Files>
+            <File>
+              <FileName>DataScope_DP.C</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\General\DataScope_DP.C</FilePath>
+            </File>
+            <File>
+              <FileName>Parameter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\General\Parameter.c</FilePath>
+            </File>
+            <File>
+              <FileName>Stmflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\General\Stmflash.c</FilePath>
             </File>
           </Files>
         </Group>

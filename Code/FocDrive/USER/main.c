@@ -13,6 +13,7 @@
 #include "key.h"
 
 
+
 u8 iostatePE9,iostatePE11,iostatePE13,iostatePE14;
 u8 iostatePC8;
 
@@ -25,13 +26,12 @@ int main(void)
 	LED_Init();
 	IO_Init();
 	KEY_Init();
-	uart_init(256000);
+	uart_init(460800);
 	TIM1_PWM_Init(4200,1);			//2分频，10kHz，周期0.1ms
 	I2C_Config();
 	Drv_AdcInit();
 	ACR_PID_Init();	//pid parameter init
 	ASR_PID_Init();
-	
 	printf("Hardware Init Finish\r\n");
 	Scheduler_Setup();				//调度器初始化，系统为裸奔，这里人工做了一个时分调度器
 	//Set_Pwm(2100,4200,6300);

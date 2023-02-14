@@ -85,7 +85,7 @@ void Run_CloseLoop(void)
 	ACR_calc(0 - fb.current_d , ex.current_q - fb.current_q);
 	//printf("%.4f	%.4f\r\n",ex.current_q,ex.speed - fb.speed);
 	// apply output of ACR to SVPWM
-	printf("%.4f\r\n",ctIO.out_Uq);
+	//printf("%.4f\r\n",ctIO.out_Uq);
 	UdqToUab(ctIO.out_Ud ,ctIO.out_Uq, &foc_var.Ualpha , &foc_var.Ubeta , fb.elec_theta_rad );	// calculate Ua and Ub according Ud and Uq
 	svpwm_calc(&foc_var);	//calculate Ta , Tb , Tc
 	foc_reg_var = svpwm_get_regs_mod(12,8400,&foc_var);	//calculate ccr1 , ccr2 ,ccr3

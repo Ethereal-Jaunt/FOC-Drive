@@ -37,16 +37,16 @@ void DataScope_Get_Channel_Data(float Data,unsigned char Channel)
   {
      switch (Channel)
 		{
-      case 1:  Float2Byte(&Data,DataScope_OutPut_Buffer,1); break;
-      case 2:  Float2Byte(&Data,DataScope_OutPut_Buffer,5); break;
-		  case 3:  Float2Byte(&Data,DataScope_OutPut_Buffer,9); break;
-		  case 4:  Float2Byte(&Data,DataScope_OutPut_Buffer,13); break;
-		  case 5:  Float2Byte(&Data,DataScope_OutPut_Buffer,17); break;
-		  case 6:  Float2Byte(&Data,DataScope_OutPut_Buffer,21); break;
-		  case 7:  Float2Byte(&Data,DataScope_OutPut_Buffer,25); break;
-		  case 8:  Float2Byte(&Data,DataScope_OutPut_Buffer,29); break;
-		  case 9:  Float2Byte(&Data,DataScope_OutPut_Buffer,33); break;
-		  case 10: Float2Byte(&Data,DataScope_OutPut_Buffer,37); break;
+      case 1:  Float2Byte(&Data,DataScope_OutPut_Buffer,0); break;
+      case 2:  Float2Byte(&Data,DataScope_OutPut_Buffer,4); break;
+		  case 3:  Float2Byte(&Data,DataScope_OutPut_Buffer,8); break;
+		  case 4:  Float2Byte(&Data,DataScope_OutPut_Buffer,12); break;
+		  case 5:  Float2Byte(&Data,DataScope_OutPut_Buffer,16); break;
+		  case 6:  Float2Byte(&Data,DataScope_OutPut_Buffer,20); break;
+		  case 7:  Float2Byte(&Data,DataScope_OutPut_Buffer,24); break;
+		  case 8:  Float2Byte(&Data,DataScope_OutPut_Buffer,28); break;
+		  case 9:  Float2Byte(&Data,DataScope_OutPut_Buffer,32); break;
+		  case 10: Float2Byte(&Data,DataScope_OutPut_Buffer,36); break;
 		}
   }	 
 }
@@ -60,21 +60,24 @@ unsigned char DataScope_Data_Generate(unsigned char Channel_Number)
 {
 	if ( (Channel_Number > 10) || (Channel_Number == 0) ) { return 0; }  //通道个数大于10或等于0，直接跳出，不执行函数
   else
-  {	
-	 DataScope_OutPut_Buffer[0] = '$';  //帧头
+  {
+		DataScope_OutPut_Buffer[Channel_Number*4 + 0] = 0x0; 
+		DataScope_OutPut_Buffer[Channel_Number*4 + 1] = 0x0; 
+		DataScope_OutPut_Buffer[Channel_Number*4 + 2] = 0x80; 
+		DataScope_OutPut_Buffer[Channel_Number*4 + 3] = 0x7F; 
 		
 	 switch(Channel_Number)   
    { 
-		 case 1:   DataScope_OutPut_Buffer[5]  =  5; return  6;  
-		 case 2:   DataScope_OutPut_Buffer[9]  =  9; return 10;
-		 case 3:   DataScope_OutPut_Buffer[13] = 13; return 14; 
-		 case 4:   DataScope_OutPut_Buffer[17] = 17; return 18;
-		 case 5:   DataScope_OutPut_Buffer[21] = 21; return 22;  
-		 case 6:   DataScope_OutPut_Buffer[25] = 25; return 26;
-		 case 7:   DataScope_OutPut_Buffer[29] = 29; return 30; 
-		 case 8:   DataScope_OutPut_Buffer[33] = 33; return 34; 
-		 case 9:   DataScope_OutPut_Buffer[37] = 37; return 38;
-     case 10:  DataScope_OutPut_Buffer[41] = 41; return 42; 
+		 case 1:  return  8;  
+		 case 2:  return 12;
+		 case 3:  return 16; 
+		 case 4:  return 20;
+		 case 5:  return 24;  
+		 case 6:  return 28;
+		 case 7:  return 32; 
+		 case 8:  return 36; 
+		 case 9:  return 40;
+     case 10: return 44; 
    }	 
   }
 	return 0;
@@ -85,8 +88,8 @@ void DataUpload(void)
 {
 			u16 Send_Count,i;
 	
-			DataScope_Get_Channel_Data(fb.current_d, 1 );
-			DataScope_Get_Channel_Data(fb.current_q, 2 );
+			DataScope_Get_Channel_Data(fb.theta, 1 );
+			DataScope_Get_Channel_Data(fb.elec_theta, 2 );
 			
 
 			Send_Count = DataScope_Data_Generate(2);

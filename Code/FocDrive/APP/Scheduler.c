@@ -7,7 +7,7 @@
 #include "key.h"
 #include "led.h"
 #include "DataScope_DP.h"
-
+#include "Parameter.h"
 
 
 extern expected_t ex;
@@ -24,9 +24,9 @@ static void Loop_1000Hz(void)	//1ms执行一次
 
 	test_rT[4]= GetSysTime_us ();
 	//Run_OpenLoop();
-	Run_CloseLoop();
+	//Run_CloseLoop();
 	//Run_RotateVector();
-	
+	//DataUpload();
 	test_rT[5] = (u32)(test_rT[4] - test_rT[3]) ;	
 }
 
@@ -46,7 +46,7 @@ static void Loop_100Hz(void)	//10ms执行一次
 {
 	test_rT[0]= GetSysTime_us ();
 //////////////////////////////////////////////////////////////////////				
-
+  static u8 sw=0;
 //	if (KEY_Scan(0) == 1 && pulse == 0)
 //	{
 //		pulse = 1;
@@ -68,10 +68,21 @@ static void Loop_100Hz(void)	//10ms执行一次
 //	
 	if (KEY_Scan(0) == 1)
 	{
-		if(ex.speed != 0)
-			ex.speed = 0;
+		if(sw != 0)
+		{
+			sw = 0;
+			printf("start write\r\n");
+			Parame_Write();
+			printf("finish write\r\n");
+		}
 		else
-			ex.speed = 30;
+		{
+			sw = 1;
+			printf("start read\r\n");
+			Parame_Read();
+			printf("finish read\r\n");
+		}
+			
 	}
 	
 //////////////////////////////////////////////////////////////////////		
@@ -88,7 +99,7 @@ static void Loop_50Hz(void)	//20ms执行一次
 
 static void Loop_20Hz(void)	//50ms执行一次
 {	
-	//DataUpload();
+	
 }
 
 static void Loop_2Hz(void)	//500ms执行一次
